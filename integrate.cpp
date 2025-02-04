@@ -39,7 +39,7 @@ double integrate(double start, double end, double n_rectangles)
 
 		gives us values for x at the top center of each rectangle under the curve.
 
-		Our y values come from the curve_function() which takes x as an argument.
+		Our y values come from the curve_function(x) which takes x as an argument.
 	*/
 
 	/* 
