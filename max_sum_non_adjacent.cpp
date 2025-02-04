@@ -45,9 +45,9 @@ int max_sum_non_adjacent(int int_array[4])
 
 int main()
 {
-	int int_array[4] = {3, 5, 10, 7};
+	int int_array_one[4] = {3, 5, 10, 7};
 
-	int max = max_sum_non_adjacent(int_array);
+	int max = max_sum_non_adjacent(int_array_one);
 
 	cout << "Max sum of non-adjacent integers: " << max << '\n';
 
