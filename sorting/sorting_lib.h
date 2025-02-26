@@ -52,7 +52,7 @@ void bucketSortUtil(vector<int> &arr, int maxValue, int numBuckets);
 
 int binarySort(vector<int> &arr);
 
-void bucketSort(vector<int> &arr, int maxValue)
+void bucketSort(vector<int> &arr, int maxValue);
 
 void minSwapsSort(vector<int> &arr, int lessThanValue);
 

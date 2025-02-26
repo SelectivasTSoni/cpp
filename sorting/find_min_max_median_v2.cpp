@@ -11,13 +11,12 @@ using namespace std;
 
 
 
-/// shawn changes
-//1. find min int min = 0 was not helping find a value
-//2. Reordered main output to be more testable stepwise
-//3. removed arr.size() - 1 in loops, i++ stops at 6 with it as is not 7 due to i++
-//4. added what i think the sort is asking - QUESTION IS NOT EXACTLY THAT GREAT IN EXPLAINING
-//5. I got rid of the & in the functions, i dont think you need them unless you are modifying
-//  the variable in question which doesnt seem to be the case here
+// shawn changes
+// 1. find min int min = 0 was not helping find a value
+// 2. Reordered main output to be more testable stepwise
+// 3. removed arr.size() - 1 in loops, i++ stops at 6 with it as is not 7 due to i++
+// 4. added what i think the sort is asking - QUESTION IS NOT EXACTLY THAT GREAT IN EXPLAINING
+// 5. I got rid of the & in the functions, i dont think you need them unless you are modifying the variable in question which doesnt seem to be the case here
 
 int findMax(vector<int> arr)
 {
@@ -124,10 +123,11 @@ int findMedian(vector<int> arr)
 }
 
 
-void sort(int min, int max, int median, vector<int> arr, vector<int>& finalarr){
+void sort(int min, int max, int median, vector<int> arr, vector<int>& finalarr)
+{
 
-	vector<int> lower;   ///hold everything before median
-	vector<int> upper;   ///hold everything including median and after
+	vector<int> lower;   // hold everything before median
+	vector<int> upper;   // hold everything including median and after
 
 	for (int i = 0; i < 7; i++) {
 		if (arr[i] >= min && arr[i] < median) {   //dont include median
@@ -135,20 +135,20 @@ void sort(int min, int max, int median, vector<int> arr, vector<int>& finalarr){
 		}
 	}
 
-	for (int i = 0; i < 7; i++) {
-		if (arr[i] >= median && arr[i] <= max) {    //include median
+	for (int i = 0; i < 7; i++) 
+	{
+		if (arr[i] >= median && arr[i] <= max) 
+		{    //include median
 			upper.push_back(arr[i]);
 		}
 	}
 
-	sort(lower.begin(), lower.end());   //sort each part seperately
+	sort(lower.begin(), lower.end());   // sort each part seperately
 	sort(upper.begin(), upper.end());
 	
 	
-	lower.insert(lower.end(), upper.begin(), upper.end()); ///combine results
-	finalarr = lower; //store in finalarr
-
-
+	lower.insert(lower.end(), upper.begin(), upper.end()); // combine results
+	finalarr = lower; // store in finalarr
 	
 }
 
@@ -169,19 +169,14 @@ int main()
 
 	sort(min, max, median, arr, finalarr);
 	
-	//for (int i = 0; i < arr.size() - 1; i++)
-	//{
-	//	cout << i << ' ';
-	//}
-	//cout << endl;
 
-	////final should be: 2, 3, 5, 6, 7, 8, 10
+	// final should be: 2, 3, 5, 6, 7, 8, 10
 
-	//final output
+	// final output
 	for (int i = 0; i < finalarr.size()-1; i++) {
 		cout << finalarr[i] << ", " ;
 	}
-	cout << finalarr[6] << endl;  //get rid of comma on final output
+	cout << finalarr[6] << endl;  // get rid of comma on final output
 
 	return 0;
 }

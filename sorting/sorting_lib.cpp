@@ -26,6 +26,69 @@ int aXSquared(int a, int b, int e)
 }
 
 
+//applies bucket-sort to elements of arr
+void bucketSortUtil(vector<int> &arr, int maxValue, int numBuckets)
+{
+	int length = arr.size();
+
+	if (length == 0)
+	{
+		return;
+	}
+	
+	//create empty buckets
+	vector<vector<int>> buckets(numBuckets);
+
+	for (int i = 0; i < numBuckets; i++)
+	{
+		buckets.push_back(vector<int>());
+	}
+
+	int div = ceil(static_cast<double>(maxValue) / numBuckets);
+
+	//add elements into the buckets
+	for (int i = 0; i < length; i++)
+	{
+		if (arr[i] < 0 || arr[i] > maxValue)
+		{
+			cout << "Value out of range." << endl;
+			return;
+		}
+
+		int bucketIndex = (arr[i] / div);
+
+		// Maximum value will be assigned to last bucket
+		if (bucketIndex >= numBuckets)
+		{
+			bucketIndex = numBuckets - 1;
+		}
+		
+		buckets[bucketIndex].push_back(arr[i]);
+	}
+
+	// sort the elements of each bucket.
+	for (int i = 0; i < numBuckets; i++)
+	{
+		sort(buckets[i].begin(), buckets[i].end());
+	}
+
+	// Populate output from the sort subarray
+	int index = 0;
+	int count;
+
+	for (int i = 0; i < numBuckets; i++)
+	{
+		vector<int> temp = buckets[i];
+		count = temp.size();
+
+		for (int j = 0; j < count; j++)
+		{
+			arr[index++] = temp[j];
+		}
+	}
+}
+
+
 int findMin(vector<int> &arr)
 {
 	int min = 0;
@@ -311,6 +374,13 @@ int binarySort(vector<int> &arr)
 }
 
 
+void bucketSort(vector<int> &arr, int maxValue)
+{
+	int numBuckets = 5;
+	bucketSortUtil(arr, maxValue, numBuckets);
+}
+
+
 void quickSort(vector<int> &arr, int lessThanValue)
 {
 	int size = arr.size();
@@ -345,6 +415,7 @@ void selectionSort(vector<int> &arr)
 		arr[max] = temp;
 	}
 }
+
 
 // Works great.
 void selectionSortV2(vector<int> &arr) 
