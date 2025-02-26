@@ -3,8 +3,6 @@
 #include<iostream>
 #include<vector>
 
-//#include "sorting_lib.h"
-
 using namespace std;
 
 //applies bucket-sort to elements of arr
