@@ -19,13 +19,24 @@ using namespace std;
 int aXSquared(int a, int b, int e);
 
 
-int findMin(vector<int> &arr); 
+// Return true if value greater than candidate
+int above(int value, int candidate);
 
 
-int findMax(vector<int> &arr);
+//return true if value less than candidate
+int below(int value, int candidate);
 
 
-int findMedian(vector<int> &arr);
+// find min value in integet array arr
+int findMin(vector<int> arr); 
+
+
+// find max value in integer array arr
+int findMax(vector<int> arr);
+
+
+// find median value in unsorted array arr
+int findMedian(vector<int> arr);
 
 
 // partitions array at lessThanValue with lower values to the left.
@@ -45,7 +56,6 @@ void bucketSortUtil(vector<int> &arr, int maxValue, int numBuckets);
 
 
 
-
 /**************************
  * sorting functions
 **************************/
@@ -61,6 +71,8 @@ void quickSort(vector<int> &arr);
 void selectionSort(vector<int> &arr);
 
 void selectionSortV2(vector<int> &arr);
+
+void minMaxMedianSort(int min, int max, int median, vector<int> arr, vector<int>& finalarr);
 
 
 

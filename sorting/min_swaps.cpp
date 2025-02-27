@@ -6,24 +6,21 @@
 #include<vector>
 #include<algorithm>
 
-#include "sorting_lib.h"
-
 using namespace std;
 
 
-// // using list intialization
-// int swaps {0};
-// int operations {0}; 
 
-// // swaps values at indices i and j
-// void swap(vector<int> &arr, int i, int j) 
-// {
-// 	int temp = arr[i];	// put value at i into temp
-// 	arr[i] = arr[j];	// put value at j into i
-// 	arr[j] = temp;		// put value at i into j
 
-// 	swaps ++; 
-// }
+// takes index positions i and j and swaps the values those indices.
+int swaps = 0;
+void swap(vector<int> &arr, int i, int j) 
+{
+	int temp = arr[i];	// put value at i into temp
+	arr[i] = arr[j];	// put value at j into i
+	arr[j] = temp;		// put value at i into j
+
+	swaps ++; 
+}
 
 /*
 	To get all elements < given value to the front of any arry, we must:
@@ -32,84 +29,109 @@ using namespace std;
 		3. use it as our comparison for the swaps, the pivot
 */
 
-// Lower and upper are simply values that track index positions
-// void minSwapsUtil(vector<int> &arr, int lower, int upper, int lessThanValue)
-// {
-// 	// is lessThanValue in the array? 
-// 	// https://stackoverflow.com/questions/3450860/check-if-a-stdvector-contains-a-certain-object
-// 	if(find(arr.begin(), arr.end(), lessThanValue) == arr.end())
-// 	{
-// 		return; 
-// 	} 
+//Lower and upper are index positions. pivot_value is the value we are sorting to the left of.
+void minSwapsUtil(vector<int> &arr, int lower, int upper, int specified_value)
+{
+	// is lessThanValue in the array? 
+	// https://stackoverflow.com/questions/3450860/check-if-a-stdvector-contains-a-certain-object
+	if (find(arr.begin(), arr.end(), specified_value) == arr.end())
+	{
+		return; 
+	} 
 	
-// 	// upper can't be less than lower
-// 	if (upper <= lower)
-// 	{
-// 		return;
-// 	}
+	// upper can't be less than lower
+	if (upper <= lower)
+	{
+		return;
+	}
 
-// 	// set pivot to the given value
-// 	int pivot = lessThanValue;
-// 	int start = lower;	
-// 	int stop = upper;
+	
+	// set pivot to the given value
+	int pivot_value = arr[lower];
+	int start = lower;	
+	int stop = upper;
 
-// 	while (lower < upper)
-// 	{	
-// 		// This loop breaks when lower is above the pivot.
-// 		while (arr[lower] <= pivot && lower < upper)
-// 		{
-// 			// this executes until arr[lower] is above pivot position...
-// 			lower++;
-			
-// 		}
-// 		// This loop breaks when upper is equal to the pivot
-// 		while (arr[upper] > pivot && lower <= upper)
-// 		{
-// 			// upper advances until it is at the pivot position...
-// 			upper--;
-// 			// so you have the lower index above the pivot, and upper index is at the pivot, then..
-// 		}
-// 		//...so if lower is a smaller value than upper...
-// 		if (lower < upper) 
-// 		{	
-// 			// the VALUES at upper and lower switch places...
-// 			swap(arr, upper, lower);
-// 			// In swap(), the VALUES are exchanged which is what accomplishes the sorting.
-// 		}
+	// until the lower index and upper index are the same
+	// This implies lower and upper indices are moving towards each other, which is exactly what the nested while loops are doing.
+	while (lower < upper)
+	{	
+		// "While the value at [lower] is less than or equal pivot_value, advance lower index..."
+		while (arr[lower] <= pivot_value && lower < upper)
+		// This loop breaks when arr[lower] is greater than the pivot_value
+		{
+			// lower advances until its VALUE is above pivot_value...
+			lower++;
+		}
 
-// 		// this process continues until lower == upper...
-// 	}
+		// "While the value at [upper] is greater then pivot_value, decrease the upper index..."
+		while (arr[upper] > pivot_value && lower <= upper)
+		// This loop breaks when arr[upper] is equal to the pivot_value
+		{
+			// upper decreases until its VALUE equals pivot_value...
+			upper--;
+		}
 
-// 	// ...then the VALUES of upper and lower (==start) switch, which sets upper as the pivot [?]
-// 	swap(arr, upper, start); // upper is the pivot position
+		// At this point, you have lower index at a VALUE above pivot_value, and upper index is at a VALUE equal to pivot_value and...
 
-// 	// and we call minSwapsUtil() on left sub-array... 
-//     minSwapsUtil(arr, start, upper-1, lessThanValue); //pivot-1 is upper for left sub-array.
+		// ... the VALUES switch places, so a value above the pivot_value moves to the left of the pivot_value.
+		if (lower < upper)
+		{	
+			// In swap(), the VALUES are exchanged which is what accomplishes the sorting.
+			swap(arr, upper, lower);
+		}
+
+		// this process continues until lower INDEX == upper INDEX and the outside While loop breaks, which implies [lower]==[upper].
+	}
+
+ 	// Note that the function has not been called anywhere, so nothing has happened yet.
+
+	// This executes when the outer While loop breaks for the first time.
+
+	//At this point...then the VALUES of upper and lower switch, which sets upper as the pivot [?]. I don't understand why we would switch values when lower INDEX == upper INDEX which is what breaks the While loop... 
+
+	// ...Yeah I do, its because the final swap in the outer loop puts lower above upper, which breaks the loop and advances the pivot INDEX to the right.
+	swap(arr, upper, start); // upper is the pivot position
+
+	// Are we done?
+	if (pivot_value == specified_value)
+	{
+		return;
+	}
+
+	// and we call this function recursively on left sub-array... 
+    minSwapsUtil(arr, start, upper - 1, specified_value); //pivot-1 is upper for left sub-array.
     
-//     // ...then right sub-array...
-//     minSwapsUtil(arr, upper+1, stop, lessThanValue); //pivot+1 is lower for right sub-array.
-// }
+    // ...then right sub-array...
+    minSwapsUtil(arr, upper + 1, stop, specified_value); //pivot+1 is lower for right sub-array.
 
 
-// next we modifiy quickSort for the minSwaps task by using the given value as the pivot. The main difference is the lessThanValue parameter and a minor change to 
-// void minSwapsSort(vector<int> &arr, int lessThanValue)
-// {
-// 	int size = arr.size();
-// 	minSwapsUtil(arr, 0, size - 1, lessThanValue);
-// }
+    // I think we need a simple check and when the pivot == pivot_value, return. Basically, we have a quick-sort that stops when it reaches the specified value. YES! See line 96
+
+    
+}
+
+
+void minSwapsSort(vector<int> &arr, int specified_value)
+{
+	int size = arr.size();
+	minSwapsUtil(arr, 0, size - 1, specified_value);
+}
 
 
 int main()
 {
-	int lessThanValue = 5;
+	int specified_value = 5;
     vector<int> arr = {7, 2, 9, 1, 6, 8, 3, 5, 12, 4, 11, 10};
 
-    minSwapsSort(arr, lessThanValue);
+    minSwapsSort(arr, specified_value);
 
+    cout << "Sorted array: ";
     for (int i: arr)
-        cout << i << '\n';
-
-    cout << "lessThanValue: " << lessThanValue << endl;
+    {
+        cout << i << ' ';
+    }
+    cout << endl;
+    cout << "specified_value : " << specified_value << endl;
 	cout << "Number of swaps: " << swaps << endl; 
 	
 	return 0;

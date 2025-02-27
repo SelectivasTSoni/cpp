@@ -1,9 +1,5 @@
-// sorting_lib.cpp
+// sorting_complete.cpp
 
-/*
-	This file contains fuction definitions.
-	Function prototypes are in sorting_lib.cpp
-*/
 
 #include <iostream>
 #include <vector>
@@ -315,6 +311,107 @@ void quickSortUtil(vector<int> &arr, int lower, int upper)
 }
 
 
+// finds the union of two sorted arrays
+vector<int> getUnion(vector<int>& arr1, vector<int>& arr2) 
+{
+	/*
+		Union is the set of elements in both arrays
+	*/
+
+    vector<int> new_set; 
+    int n = arr1.size();
+    int m = arr2.size();
+  
+    // while there are elements in both arr1 and arr2
+    int i = 0;
+    int j = 0;    
+    while(i < n && j < m) 
+    {
+		
+      	// if element in arr1 is LESS than element in arr2, 
+      	// push element of arr1 to new_set, advance index of arr1
+        if(arr1[i] < arr2[j]) 
+        {
+          	new_set.push_back(arr1[i]);
+            i++;
+        }
+        // if element of arr1 is GREATER than element in arr2,
+        // push element of arr2 to new_set, advance index of arr2
+        else if(arr1[i] > arr2[j]) 
+        {
+          	new_set.push_back(arr2[j]);
+            j++;
+        }
+      
+        // If equal, push element to new_set, 
+        // advance both indices of arr1 and arr2.
+        else 
+        {
+            new_set.push_back(arr1[i]);
+            i++;
+            j++;
+        }
+    }
+  	
+  	// Add the remaining elements of arr1
+  	while (i < n) \
+  	{
+      	new_set.push_back(arr1[i]);
+      	i++;
+    }
+  
+  	// Add the remaining elements of arr2
+  	while (j < m) 
+  	{
+      	new_set.push_back(arr2[j]);
+      	j++;
+    }
+    return new_set; 
+}
+
+
+// finds the intersection of two sorted arrays
+vector<int> getIntersection(vector<int> arr1, vector<int> arr2)
+{
+	/*
+		Intersection is the set of elements common to both arrays
+	*/
+
+	vector<int> new_set;
+	int n = arr1.size();
+    int m = arr2.size();
+  
+  	// while arr1 and arr2 have elements
+  	int i=0;
+  	int j=0;
+  	while (i < n && j < m) {
+      	
+      	// if arr1[i] is less than arr2[j], 
+      	// advance the index of arr1
+      	if(arr1[i] < arr2[j]) {
+          	i++;
+        } 
+      	
+      	// if arr1[i] is GREATER than arr2[j], 
+      	// advance index of arr2
+      	else if (arr1[i] > arr2[j]) {
+          	j++;
+        } 
+      	
+      	// if arr1[i] == arr2[j], then this element is in common
+      	// and part of the intersection set.
+      	//add it to new_set array and move in both arrays
+      	else {
+          	new_set.push_back(arr1[i]);
+          	i++; 
+          	j++;
+        }
+    }
+  
+    return new_set;
+}
+
+
 /**************************
  * sorting functions
 **************************/
@@ -362,10 +459,11 @@ void bucketSort(vector<int> &arr, int maxValue)
 }
 
 
-void quickSort(vector<int> &arr, int lessThanValue)
+void quickSort(vector<int> &arr)
 {
-	int size = arr.size();
-	minSwapsUtil(arr, 0, size - 1, lessThanValue);
+    int size = arr.size();
+    //quickSortUtil(arr, 0, size - 1);
+    quickSortUtil(arr, 0, size - 1);
 }
 
 
@@ -451,7 +549,241 @@ void minMaxMedianSort(int min, int max, int median, vector<int> arr, vector<int>
 }
 
 
+void minSwapsSort(vector<int> &arr, int specified_value)
+{
+	int size = arr.size();
+	minSwapsUtil(arr, 0, size - 1, specified_value);
+}
 
+
+/**************************
+ * main function
+**************************/
+int main()
+{
+	cout << endl;
+	cout << "******************************" << endl;
+	cout << "Task 1: Minimum Swaps" << endl;
+	cout << "******************************" << endl;
+	
+	int specified_value = 5;
+    vector<int> arr1 = {7, 2, 9, 1, 6, 8, 3, 5, 12, 4, 11, 10};
+
+    minSwapsSort(arr1, specified_value);
+
+    cout << "Sorted array: ";
+    for (int i: arr1)
+    {
+        cout << i << ' ';
+    }
+    cout << endl;
+    cout << "specified_value : " << specified_value << endl;
+	cout << "Number of swaps: " << "Unavailable. See min_swap.cpp or min_swap.app" << endl; 
+	
+	
+	cout << endl;
+	cout << "******************************" << endl;
+	cout << "Task 2: Equation sort" << endl;
+	cout << "******************************" << endl;
+
+	int a = 10;
+	int e = 2; 
+	
+	vector<int> arr2 = {3, -2, 1, -4, 0};
+
+	cout << "Let a = 10" << endl;
+
+	//for each element in arr, apply the function and assign
+	for (int i = 0; i < arr2.size() - 1; i++)
+	{	
+		cout << "Index: " << i;
+		arr2[i] = aXSquared(a, i, e);
+		cout << " Value after a * pow(x, 2): " << arr2[i];
+		cout << endl;
+	}
+	
+	selectionSortV2(arr2);
+
+	// cout << endl;
+	cout << "Sorted array : ";
+	for (int i = 0; i < arr2.size(); i++)
+    {
+    	cout << arr2[i] << ' ';
+    }
+    cout << endl;
+
+   	cout << endl;
+	cout << "******************************" << endl;
+	cout << "Task 3: Binary sort" << endl;
+	cout << "******************************" << endl;
+
+	vector<int> arr3 = {0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1};
+    
+    int swap_count = binarySort(arr3);
+
+    cout << "Sorted array: " ;
+    
+    // output sorted array
+    for (int i: arr3)
+    {
+        cout << i << " ";
+    }
+    cout << endl;
+
+    cout << "Number of swaps: " << swap_count << endl;
+
+
+    cout << endl;
+	cout << "******************************" << endl;
+	cout << "Task 4: Min, max, median sort " << endl;
+	cout << "******************************" << endl;
+
+	vector<int> arr4 = { 10, 3, 5, 2, 8, 7, 6 };
+	vector<int> finalarr;
+
+	int min = findMin(arr4);
+	cout << "The min is: " << min << endl;
+
+	int max = findMax(arr4);
+	cout << "The max is: " << max << endl;
+
+	int median = findMedian(arr4);
+	cout << "The median is: " << median << endl;
+
+	cout << "Sorted array: ";
+	minMaxMedianSort(min, max, median, arr4, finalarr);
+	
+	for (int i = 0; i < finalarr.size()-1; i++) {
+		cout << finalarr[i] << ", " ;
+	}
+	cout << finalarr[6] << endl;  // get rid of comma on final output
+
+
+	cout << endl;
+	cout << "******************************" << endl;
+	cout << "Task 5: Priority bucket" << endl;
+	cout << "******************************" << endl;
+
+	vector<string> arr5 = {"Low", "Mid", "High", "Low", "High", "Mid", "Low", "High"};
+
+	// output original array
+	cout << "Original array: ";
+	for (int i = 0; i < arr5.size(); i++)
+	{
+		 cout<< arr5[i] << " ";
+	}
+	cout << endl;
+
+	// translate string values to numeric values so we can use the already-written bucketSort function
+	vector<int> numeric;
+	for (int i = 0; i < arr5.size(); i++)
+	{
+		if(arr5[i] == "Low")
+		{
+			numeric.push_back(3);
+		} 
+		else if(arr5[i] == "Mid")
+		{
+			numeric.push_back(2);
+		}
+		else if(arr5[i] == "High")
+		{
+			numeric.push_back(1);
+		}
+	}
+
+	// Output numeric translation/mapping
+	cout << "Numeric translation: " ;
+	for (int i = 0; i < numeric.size(); i++)
+	{
+		cout << numeric[i] << " ";
+	}
+	cout << endl;
+
+	// sort them in place (numeric passed by reference)
+	int maxValue = 3;
+	bucketSort(numeric, maxValue);
+
+	// translate it back to the string representations
+	// This is totally a hack to meet the time dead-line!
+	vector<string> named;
+	for (int i = 0; i < numeric.size(); i++)
+	{
+		if (numeric[i] == 1)
+		{
+			named.push_back("High");
+		}
+	}
+
+	for (int i = 0; i < numeric.size(); i++)
+	{
+		if (numeric[i] == 2)
+		{
+			named.push_back("Mid");
+		}
+	}
+	
+	for (int i = 0; i < numeric.size(); i++)
+	{
+		if (numeric[i] == 3) 
+		{
+			named.push_back("Low");
+		}
+	}
+
+	// output sorted numeric translation
+	cout << "Sorted numeric translation: ";
+	for (int i = 0; i < numeric.size(); i++)
+	{
+		cout << numeric[i] << " ";
+	}
+	cout << endl;
+
+	// output sorted original
+	cout << "Translated back & sorted: ";
+	for (int i = 0; i < named.size(); i++)
+	{
+		cout << named[i] << " ";
+	}
+	cout << endl;
+
+
+	cout << endl;
+	cout << "******************************" << endl;
+	cout << "Task 6: Union and intersection" << endl;
+	cout << "******************************" << endl;
+
+	vector<int> arr6 = {10, 23, 45, 67, 89, 12, 34, 56, 78, 90, 11, 22, 33, 44, 55};
+
+	vector<int> arr7 = {55, 66, 77, 88, 99, 10, 22, 44, 66, 21, 43, 65, 87, 32, 54};
+
+	// sort the arrays
+	quickSort(arr6);
+	quickSort(arr7);
+
+	// get union
+   	vector<int> union_set = getUnion(arr6, arr7);
+
+    // get intersection
+    vector<int> intersection_set = getIntersection(arr6, arr7);
+
+    
+    cout << "Union of arr6 and arr7: " << endl;
+    for (int i : union_set) 
+    {
+        cout << i << " ";
+    }
+    cout << endl;
+
+    cout << "Intersection of arr6 and arr7: " << endl;
+    for (int i : intersection_set) 
+    {
+        cout << i << " ";
+    }
+    cout << endl;
+
+	return 0;
+}
 
 
 

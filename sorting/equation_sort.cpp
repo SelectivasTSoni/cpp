@@ -7,9 +7,37 @@
 #include<algorithm>
 #include<cmath>
 
-#include "sorting_lib.h"
-
 using namespace std;
+
+
+int aXSquared(int a, int b, int e)
+{	
+	int y = a * pow(b, e);
+	return y;
+}
+
+
+void selectionSortV2(vector<int> &arr) 
+{
+	int size = arr.size();
+	int i, j, min, temp;
+
+	for (i = 0; i < size; i++)
+	{
+		min = i;
+		for (j = i + 1; j < size; j++)
+		{
+			if (arr[j] < arr[min])
+			{
+				min = j; 
+			}
+		}
+
+		temp = arr[i];
+		arr[i] = arr[min];
+		arr[min] = temp;
+	}
+}
 
 
 int main()
@@ -30,8 +58,16 @@ int main()
 		cout << endl;
 	}
 	
-	// sort, but this doesn't seem to be doing anything
-	selectionSort(arr);
+	selectionSortV2(arr);
+
+	cout << endl;
+	cout << "Sorted array : ";
+	for (int i = 0; i < arr.size(); i++)
+    {
+    	cout << arr[i] << ' ';
+    }
+   	cout << endl;
+   	cout << endl;
 
 	return 0;
 }

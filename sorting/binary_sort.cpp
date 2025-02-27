@@ -45,7 +45,8 @@ int binarySort(vector<int> &arr)
 }
 
 
-int main () {
+int main () 
+{
     vector<int> arr = {0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1};
     
     int swap_count = binarySort(arr);
