@@ -1,19 +1,86 @@
 // mid_term.cpp
 
 #include <iostream>
-#include <cmath>
 #include <vector>
 #include <cmath>
 using namespace std;
 
-// utility for 2) and 3)
+
+int fibonacciSearch(vector<int> &arr, int target)
+{
+    /*
+    	n is the number of elements in arr
+    	target is the value to search for
+    	
+    	returns index of target or -1
+    */   
+
+    int n = arr.size();
+    int fn2 = 0;
+    int fn1 = 1;
+    int fk = fn1 + fn2;
+
+    // Find the greatest fk that is less than n
+    while (fk <= n)
+    {
+    	fn2 = fn1;
+        fn1 = fk;
+        fk = fn1 + fn2;
+    }
+        
+
+    int offset = -1;
+
+    while (fn2 >= 0)
+    {
+        int index = min(offset + fn2, n - 1);
+
+        if (arr[index] < target)
+        {
+        	// we search to left of fn2
+            fk = fn1;
+            fn1 = fn2;
+            fn2 = fk - fn1;
+            offset = index;
+        }
+
+        else if (arr[index] > target)
+        {
+        	// we search to right of fn2
+            fk = fn2;
+            fn1 = fn1 - fn2;
+            fn2 = fk - fn1;
+        }
+            
+        else
+        {
+        	// arr[index] == target so we return index
+            return index;
+        }
+            
+    }
+
+
+
+    // Compare the last element of arr with target
+    if (fn1 && arr[offset + 1] == target)
+    {
+    	return offset + 1;
+    }
+
+    // target not found in arr
+    return -1;
+}
+
+
+// utility for 3) and 4)
 double curve_function(double x)
 {
 	double y = 2 * pow(x, 4) - 3 * pow(x, 3) + 5 * pow(x, 2) - x + 7;
 	return y;
 }
 
-// 2)
+// 3)
 double derivative(double x)
 {
 	/* 
@@ -28,7 +95,7 @@ double derivative(double x)
 
 	double m = (y2 - y1) / (x2 - x);
 
-	cout << "Problem 2: "<< endl;
+	cout << "Problem 3: "<< endl;
 	cout << "-----------" << endl;
 	cout << "The slope is : " << m << '\n';
 	cout << endl;
@@ -37,7 +104,7 @@ double derivative(double x)
 }
 
 
-// 3)
+// 4)
 double x;
 double y;
 double start;
@@ -95,7 +162,7 @@ double integrate(double start, double end, double n_rectangles)
 		areaUnderCurve += rectangleArea;
 	}
 
-	cout << "Problem 2: "<< endl;
+	cout << "Problem 4: "<< endl;
 	cout << "-----------" << endl;
 	cout << fixed << "Number of Rectangles: " << n_rectangles << endl;
 	cout << fixed << "Rectangle width: " << width << endl;
@@ -127,7 +194,7 @@ int time_complexity(int n)
 		cout << "-----------" << endl;
 		cout << "n =  " << n << endl;
 		cout << "Number of interations: " << iterations << endl;
-		cout << "m =  " << m << endl;
+		cout << "Increments performed by inner loop: " << m << endl;
 		cout << endl;
 
 	return m;
@@ -174,8 +241,6 @@ int max_product_non_adjacent(vector<int> arr)
 	return max;
 }
 
-
-// 8) Given an array of integers, {12, 3, 5, 7, 19, 1}, write a C++ function that performs the following tasks: (a) Sort the array in ascending order using the Quick Sort algorithm. (b) After sorting, write a function to perform a binary search on the sorted array. The binary search should return the index of the element if found, or a message saying ”Element not found in the array” if the element is not in the array. 20 points
 
 // swaps values at indices i and j
 void swap(vector<int> &arr, int i, int j) 
@@ -277,6 +342,7 @@ int binarySearch(vector<int> &arr, int value)
 }
 
 
+// 8) Given an array of integers, {12, 3, 5, 7, 19, 1}, write a C++ function that performs the following tasks: (a) Sort the array in ascending order using the Quick Sort algorithm. (b) After sorting, write a function to perform a binary search on the sorted array. The binary search should return the index of the element if found, or a message saying ”Element not found in the array” if the element is not in the array. 20 points
 int prob_8 (vector<int> &arr, int value)
 {
 	// quick-sort array in place
@@ -303,42 +369,219 @@ int prob_8 (vector<int> &arr, int value)
 
 
 // 9) You are given a sorted array of integers, {10, 22, 35, 40, 45, 50, 55, 70, 80, 82, 85, 90}. Implement the Fibonacci Search algorithm in C++ to find the index of a target value in the array. The target value is 55. 15 points
-int prob_9 (vector<int> arr, int target)
+int prob_9 (vector<int> &arr, int target)
 {
-	
+	int index = fibonacciSearch(arr, target);
 	cout << "Problem 9: "<< endl;
-		cout << "-----------" << endl;
-		
-		cout << endl;
+	cout << "-----------" << endl;	
+	cout << "The index of the target value: " << index;
+	cout << endl;
 
-	return 0;
+	return index;
 }
 
 
 // 10) You are given a singly linked list with values: 1 2 3 4 5. Your task is to reverse the list and print the reversed linked list. 10 points
 int prob_10 (vector<int> arr)
 {
+
 	
 	cout << "Problem 10: "<< endl;
-		cout << "-----------" << endl;
-		
-		cout << endl;
+	cout << "-----------" << endl;
+	cout << endl;
 
 	return 0;
 }
 
 
+class LinkedList 
+{
+	private:
+	    struct Node 
+	    {
+	        int value;
+			Node *next;
+	        Node(int v, Node *n = nullptr);
+	    };
+		Node *head;
+		int length;
+	
+	public:
+	    LinkedList();
+
+	    // method declarations
+	    virtual int size();
+	    virtual bool isEmpty();
+	    virtual int peek();
+	    virtual void addHead(int value);
+	    virtual int removeHead();
+	    
+	    // Other linked list methods.
+	    virtual bool find(int data);
+	    virtual void addTail(int value);
+	    virtual void print();
+	    virtual void reverse();
+
+
+};
+
+
+// method definitions
+LinkedList::Node::Node(int v, Node *n) 
+{
+	value = v;
+	next = n; 
+}
+
+
+LinkedList::LinkedList()
+{
+    head = nullptr;
+	length = 0; 
+}
+
+
+int LinkedList::size()
+{
+    return length;
+}
+
+
+bool LinkedList::isEmpty() 
+{
+    return length == 0;
+}
+
+
+int LinkedList::peek() 
+{
+    if (isEmpty()) 
+    {
+        throw("EmptyListException");
+    }
+
+    return head -> value;
+}
+
+
+void LinkedList::addHead(int value) 
+{
+    head = new Node(value, head);
+    length++; 
+}
+
+
+int LinkedList::removeHead() 
+{
+    if (isEmpty()) {
+        throw("EmptyListException");
+    }
+    
+    Node *deleteMe = head;
+    int value = head->value;
+    head = head->next;
+    length--;
+    
+    delete deleteMe;
+    
+    return value;
+}
+
+
+bool LinkedList::find(int data)
+{
+    Node *temp = head;
+    while (temp != nullptr) 
+    {
+        if (temp->value == data) 
+        {
+            return true;
+		}
+        
+        temp = temp->next;
+    }
+
+    return false;
+}
+
+
+void LinkedList::addTail(int value) 
+{
+    Node *newNode = new Node(value);
+    Node *curr = head;
+    if (head == nullptr)
+    {
+        head = newNode;
+    }
+    while (curr->next != nullptr)
+    {
+        curr = curr->next;
+    }
+
+    curr->next = newNode;
+}
+
+
+void LinkedList::print() 
+{
+    Node *temp = head;
+    while (temp != nullptr) 
+    {
+        cout << temp->value << " ";
+        temp = temp->next;
+    }
+
+    cout << endl;
+}
+
+
+void LinkedList::reverse() 
+{
+    Node *curr = head;
+    Node *prev = nullptr;
+    Node *next = nullptr;
+    
+    while (curr != nullptr) 
+    {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+	}
+	
+	head = prev; 
+}
+
+
 int main()
 {
-	// 2
+	// 1
+	cout << "******************" << endl;
+	cout << "Problem 1: "<< endl;
+	cout << "-----------" << endl;
+	cout << "Answered in .pdf " << endl;
+	cout << endl;
 	cout << "******************" << endl;
 	cout << endl;
+
+
+	// 2
+	cout << "Problem 2: "<< endl;
+	cout << "-----------" << endl;
+	cout << "Answered in .pdf " << endl;
+	cout << endl;
+	cout << "******************" << endl;
+	cout << endl;
+
+
+	// 3
 	double x = 2.0;
 	double slope = derivative(x);
 	cout << "******************" << endl;
 	cout << endl;
 
-	// 3 
+
+	// 4
 	double start = 2;
 	double end = 6;
 	int n_rectangles = 100000;
@@ -346,11 +589,21 @@ int main()
 	cout << "******************" << endl;
 	cout << endl;
 
+	// 5
+	cout << "Problem 5: "<< endl;
+	cout << "-----------" << endl;
+	cout << "Answered in .pdf " << endl;
+	cout << endl;
+	cout << "******************" << endl;
+	cout << endl;
+
+
 	// 6 
 	int n = 100;
 	int m = time_complexity(n);
 	cout << "******************" << endl;
 	cout << endl;
+
 
 	// 7
 	vector<int> arr = {3, 2, 5, 10, 7};
@@ -362,22 +615,45 @@ int main()
 	//8
 	vector<int> arr2 = {12, 3, 5, 7, 19, 1};
 	prob_8 (arr2, 19);
-
 	cout << "******************" << endl;
 	cout << endl;
 
 
 	//9
 	vector<int> arr3 = {10, 22, 35, 40, 45, 50, 55, 70, 80, 82, 85, 90};
-
+	// int index = fibonacciSearch(arr, 55);
+	prob_9(arr3, 55);
+	cout << endl;
 	cout << "******************" << endl;
 	cout << endl;
 
+	
 	//10
+	cout << "Problem 10: "<< endl;
+	cout << "-----------" << endl;
+	cout << endl;
+	
+	// instantiate a LinkedList object
+	LinkedList *ll = new LinkedList();
 
+	// call addHead method to add items
+    ll->addHead(5);
+    ll->addHead(4);
+    ll->addHead(3);
+    ll->addHead(2);
+    ll->addHead(1);
+
+    // call print method
+    ll->print();
+
+    //call reverse method
+    ll->reverse();
+
+    // call print to see reversed linked list
+    ll->print();
+	
 	cout << "******************" << endl;
 	cout << endl;
-
 
 
 	return 0;
