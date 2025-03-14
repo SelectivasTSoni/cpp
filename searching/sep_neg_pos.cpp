@@ -29,14 +29,14 @@ void sepNegPos(vector<int> &arr)
 	}
 
 	cout << "Postive: ";
-	for (int i; i < pos.size(); i++)
+	for (int i=0; i < pos.size(); i++)
 	{
 		cout <<  pos[i] << " ";
 	}
 	cout << endl;
 
 	cout << "Negative: ";
-	for (int i; i < neg.size(); i++)
+	for (int i=0; i < neg.size(); i++)
 	{
 		cout << neg[i] << " ";
 	}
