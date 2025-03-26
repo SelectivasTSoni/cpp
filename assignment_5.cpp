@@ -51,6 +51,7 @@ class LinkedList
         virtual void insert(int value, int postion);
         virtual void insert_2(int value, int position);
         virtual void sortedInsert(int value);
+        virtual bool insertAtK(int value, int k);
 
 };
 
@@ -337,6 +338,37 @@ void LinkedList::sortedInsert(int value)
     curr->next = newNode;
 }
 
+bool LinkedList::insertAtK(int value, int k) 
+{
+        if (k <= 0 || k > length + 1) 
+        {
+            return false;  // Invalid position
+        }
+
+        // If inserting at the start, use addHead function
+        if (k == 1) 
+        {
+            addHead(value);
+            return true;
+        }
+
+        Node* current = head;
+        int position = 1;
+
+        // Move to (k-1)th node (one before the desired position)
+        while (position < k - 1) 
+        {
+            current = current->next;
+            position++;
+        }
+
+        // Create new node and insert it
+        Node* newNode = new Node(value, current->next);
+        current->next = newNode;
+        length++;
+
+        return true;
+    }
 
 /////////////////////////////
 ////////////////////////////
@@ -432,14 +464,39 @@ int main()
 
     cout << "Original list ll_1b: ";
     ll_1b->print();
-    cout << endl;
+    // cout << endl;
 
     //use insert method
-    ll_1->insert_2(value, position);
+    ll_1b->insert_2(value, position);
 
     cout << "Updated list ll_1: ";
-    ll_1->print();
+    ll_1b->print();
 
+    /////////////////////////////////////
+
+    cout << "******************" << endl;
+    cout << "Problem 1, Attempt 3: " << endl;
+    cout << "==================" << endl;
+
+    LinkedList *ll_1c = new LinkedList(); 
+
+    ll_1c->addHead(7);
+    ll_1c->addHead(6);
+    ll_1c->addHead(5);
+    ll_1c->addHead(4);
+    ll_1c->addHead(3);
+    ll_1c->addHead(2);
+    ll_1c->addHead(1);
+
+    cout << "Original list ll_1c: ";
+    ll_1c->print();
+    // cout << endl;
+
+    //use insert method
+    ll_1c->insertAtK(value, position);
+
+    cout << "Updated list ll_1: ";
+    ll_1c->print();
 
 
 
