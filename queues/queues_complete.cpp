@@ -6,9 +6,6 @@
 #include <queue>
 #include <vector>
 
-
-
-
 using namespace std;
 
 //islands
@@ -73,7 +70,8 @@ int countDistinctIslands()
 
 // min_of_max
 //////////////
-int min_of_max_sliding_window(const vector<int>& nums, int k) {
+int min_of_max_sliding_window(const vector<int>& nums, int k) 
+{
     deque<int> dq;
     vector<int> max_values;
     
@@ -104,7 +102,8 @@ int min_of_max_sliding_window(const vector<int>& nums, int k) {
 
 // first_neg
 /////////////
-vector<int> firstNegativeInWindow(const vector<int>& arr, int k) {
+vector<int> firstNegativeInWindow(const vector<int>& arr, int k) 
+{
     vector<int> result;
     deque<int> dq;  // Deque to store indices of potential negative numbers in the window
 
@@ -176,6 +175,7 @@ int convertXY(int src, int dst)
 int main() {
     
     // islands
+    cout << "********************" << endl;
     cout << "Islands: " << endl;
     cout << "********************" << endl;
     grid = {{1, 1, 0, 0, 0, 1, 1, 0}, 
@@ -192,15 +192,15 @@ int main() {
     cout << "Total distinct islands: " << result << endl;
     cout << endl;
 
-
     // x_to_y
+    cout << "********************" << endl;
     cout << "x_to_y: " << endl;
     cout << "********************" << endl;
     convertXY(5, 27);
     cout << endl;
 
-
     // min_of_max
+    cout << "********************" << endl;
     cout << "min_of_max: " << endl;
     cout << "********************" << endl;
     std::vector<int> nums = {11, 2, 75, 92, 59, 90, 55};
@@ -209,6 +209,7 @@ int main() {
      cout << endl;
     
     // first_neg
+    cout << "********************" << endl;
     cout << "first_neg: " << endl;
     cout << "********************" << endl;
     std::vector<int> arr = {13, -2, -6, 10, -14, 50, 14, 21};
@@ -221,9 +222,5 @@ int main() {
     }
     cout << endl;
 
-
-    
-
-    
     return 0;
 }
