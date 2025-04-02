@@ -1,80 +1,48 @@
 // first_neg.cpp
 
 #include <iostream>
-#include <queue>
+#include <deque>
+#include <vector>
+using namespace std;
 
+vector<int> firstNegativeInWindow(const vector<int>& arr, int k) {
+    vector<int> result;
+    deque<int> dq;  // Deque to store indices of potential negative numbers in the window
 
-// First negative in sliding windows: Given an array of integers, find the first negative number in all sliding windows of length k. Input: Arr = [13, -2, -6, 10, -14, 50, 14, 21], k = 3
+    for (int i = 0; i < arr.size(); i++) {
+        // Remove elements from the front of the deque if they are out of the current window
+        if (!dq.empty() && dq.front() < i - k + 1) {
+            dq.pop_front();
+        }
 
-// using force
-void maxSlidingWindowsForce(std::vector<int> &arr, int size, int k) 
-{
-	// until i is size - k, at the last window
-	// this gets us through the array
-    for (int i = 0; i < size - k + 1; i++) 
-    {
-        //int max = arr[i];
-        int first_neg;
-        
-        // until j == k...
-        // this loops through each k sized window.
-        for (int j = 1; j < k; j++) 
-        {
-        	// get the max in the the window
-        	// max = std::max(max, arr[i + j]);
+        // If current element is negative, add its index to the deque
+        if (arr[i] < 0) {
+            dq.push_back(i);
+        }
 
-        	// get the first negative in the window
-        	if (j < 0)
-        	{
-        		first_neg = j;
-        		break; // exit inner for-loop
-        	}
-        	
-		}
-        
-        // outputs the max in each window
-        // std::cout << max << " ";
-
-        // outputs first negative in window
-        std::cout << first_neg << " ";
+        // Once we've processed the first k elements, start adding the result for the sliding window
+        if (i >= k - 1) {
+            if (!dq.empty()) {
+                result.push_back(arr[dq.front()]); // First negative number in the window
+            } 
+        }
     }
-    std::cout << std::endl;
-}
-
-
-// using a double ended queue
-void firstNegSlidingWindows(std::vector<int> arr, int size, int k)
-{
-    std::deque<int> que;
-    
-    for (int i = 0; i < size; i++) 
-    {
-		// Remove out of range elements
-		if (que.size() > 0 && que.front() <= i - k) 
-		{
-		    que.pop_front();
-		}
-		
-		// Remove smaller values at left.
-		while (que.size() > 0 && arr[que.back()] <= arr[i])
-		    que.pop_back();
-		que.push_back(i);
-		
-		// Largest value in window of size k is at index que[0]
-		// It is displayed to the screen.
-		if (i >= (k - 1))
-		    std::cout << arr[que.front()] << " ";
-
-	}
-	std::cout << std::endl;
+    return result;
 }
 
 
 int main() {
     std::vector<int> arr = {13, -2, -6, 10, -14, 50, 14, 21};
     int k = 3;
-    firstNegSlidingWindows(arr, 8, 3);
 
-    
+    vector<int> result = firstNegativeInWindow(arr, k);
+
+    // Output the result
+    cout << "First negative numbers in each sliding window of size k = " << k << ": ";
+    for (int num : result) {
+        cout << num << " ";
+    }
+    cout << endl;
+
     return 0;
 }
