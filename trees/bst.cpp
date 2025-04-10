@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-// Definition of a BST node
+// Define a BST node
 struct Node 
 {
     int data;
@@ -18,7 +18,7 @@ struct Node
     }
 };
 
-// Function to insert a node into BST
+// Inserts a node into BST
 Node* insert(Node* root, int data) 
 {
     if (root == nullptr) 
@@ -35,7 +35,7 @@ Node* insert(Node* root, int data)
     return root;
 }
 
-// Function to find the minimum value node in a BST
+// Finds the minimum value node in a BST
 Node* findMin(Node* root) 
 {
     while (root->left != nullptr) 
@@ -45,7 +45,7 @@ Node* findMin(Node* root)
     return root;
 }
 
-// Function to print all root-to-leaf paths
+// Prints all root-to-leaf paths
 void printPaths(Node* root, vector<int>& path) 
 {
     if (root == nullptr) 
@@ -76,7 +76,7 @@ void printPaths(Node* root, vector<int>& path)
     path.pop_back();
 }
 
-// Function to search for a key in the BST
+// Search for a key in the BST
 bool search(Node* root, int key) 
 {
     if (root == nullptr) 
@@ -97,7 +97,7 @@ bool search(Node* root, int key)
     }
 }
 
-// Function to delete a node from BST
+// Delete a node from BST
 Node* deleteNode(Node* root, int key) 
 {
     if (root == nullptr) 
@@ -127,7 +127,7 @@ Node* deleteNode(Node* root, int key)
             delete root;
             return temp;
         }
-        // Node with two children: Get the inorder successor (smallest in the right subtree)
+        // Node with two children: Get the in-order successor, smallest in the right subtree
         Node* temp = findMin(root->right);
         root->data = temp->data;
         root->right = deleteNode(root->right, temp->data);
@@ -137,7 +137,7 @@ Node* deleteNode(Node* root, int key)
 
 
 
-// Function to find the nth smallest element in BST
+// Find the nth smallest element in BST
 void findNthSmallest(Node* root, int& n, int& result) 
 {
     if (root == nullptr || n <= 0) 
@@ -145,7 +145,7 @@ void findNthSmallest(Node* root, int& n, int& result)
         return;
     }
     
-    // Inorder traversal (Left, Root, Right)
+    // In-order traversal (Left, Root, Right)
     findNthSmallest(root->left, n, result);
     
     n--;
